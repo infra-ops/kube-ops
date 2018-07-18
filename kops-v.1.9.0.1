@@ -1,0 +1,55 @@
+cd kubernetes-aws-vpc-kops-terraform/
+kops edit cluster ${NaME}
+kops edit cluster ${NAME}
+kops update cluster --out=. --target=terraform ${NAME}
+kops edit cluster ${NAME}
+kops update cluster --out=. --target=terraform ${NAME}
+kops create cluster --master-zones $ZONES --zones $ZONES --topology private --dns-zone $(terraform output public_zone_id) --networking calico --vpc $(terraform output vpc_id) --target=terraform --out=. ${NAME}
+kops create secret --name staging.linuxnet.co.in sshpublickey admin -i /home/ubuntu.ssh/id_rsa.pub
+kops create secret --name staging.linuxnet.co.in sshpublickey admin -i /home/ubuntu/.ssh/id_rsa.pub
+kops edit cluster ${NAME}
+kops update cluster --out=. --target=terraform ${NAME}
+ping kops update cluster --out=. --target=terraform ${NAME}
+cd /home/ubuntu/kops/
+export KOPS_STATE_STORE=s3://clusters.nik.example.com
+kops create cluster --zones=us-east-1c --dns private clusters.nik.example.co
+kops create cluster --zones=us-east-1c --dns private clusters.nik.example.com
+kops create secret --name clusters.nik.example.com sshpublickey admin -i ~/.ssh/id_rsa.pub
+kops edit ig --name=clusters.nik.example.com nodes
+kops edit ig --name=clusters.nik.example.com master-us-east-1c
+kops update cluster clusters.nik.example.com --yes
+kops edit ig --name=clusters.nik.example.com nodes
+kops edit ig --name=clusters.nik.example.com master-us-east-1c
+kops update cluster clusters.nik.example.com --yes
+kops edit ig --name=clusters.nik.example.com nodes
+kops edit ig --name=clusters.nik.example.com master-us-east-1c
+kops update cluster clusters.nik.example.com --yes
+kops rolling-update cluster clusters.nik.example.com --yes
+kops destroy cluster clusters.nik.example.com --yes
+kops delete cluster clusters.nik.example.com --yes
+kops update cluster clusters.nik.example.com --yes
+kops create cluster --zones=us-east-1c --dns private clusters.nik.example.com
+kops edit ig --name=clusters.nik.example.com nodes
+kops edit ig --name=clusters.nik.example.com master-us-east-1c
+kops update cluster clusters.nik.example.com --yes
+export GOPATH=/home/ubuntu/kops/go_path/
+cd kops/
+kops validate cluster
+cd /home/ubuntu/kops/
+kops delete cluster clusters.nik.example.com
+export KOPS_STATE_STORE=s3://clusters.nik.example.com
+kops delete cluster clusters.nik.example.com
+kops delete cluster clusters.nik.example.com --yes
+cd /home/ubuntu/kops/
+cd ../kops/
+cd kubernetes-aws-vpc-kops-terraform/
+cd /home/ubuntu/kops/
+kops version
+export KOPS_STATE_STORE=s3://clusters.linuxnet.co.in
+kops create cluster --zones us-east-1a ${NAME}
+kops create cluster --zones us-east-1a ${NAME}
+kops update cluster ${NAME} --yes
+kops validate cluster
+kops validate cluster
+kops delete clusters clusters.linuxnet.co.in
+kops delete cluster clusters.linuxnet.co.in --yes

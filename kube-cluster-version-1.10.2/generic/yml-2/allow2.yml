@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: policy
+metadata:
+  name: allow-all
+spec:
+  selector: "all()"
+  types:
+  - ingress
+  - egress
+  ingress:
+  - action: allow
+  egress:
+  - action: allow

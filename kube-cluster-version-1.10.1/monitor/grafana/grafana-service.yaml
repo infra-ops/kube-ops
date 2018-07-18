@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: k8s
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    nodePort: 30100
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: grafana

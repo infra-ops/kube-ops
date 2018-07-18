@@ -1,0 +1,93 @@
+
+kubectl exec -ti busybox sh -n kube-system
+
+kubectl logs pod/calico-kube-controllers-7d7468d755-nnjt6 -n kube-system
+
+kubectl get secret calico-kube-controllers-token-vp2dg -n kube-system -o yaml
+
+kubectl get secret calico-kube-controllers-token-vp2dg -n kube-system
+
+kubectl describe sa calico-kube-controllers -n kube-system
+
+kubectl get sa calico-kube-controllers -n kube-system
+
+kubectl create sa calico-kube-controllers -n kube-system
+
+export ETCD_ENDPOINTS=http://127.0.0.1:2379
+
+kubectl apply -f consul/consul-1.yaml -f consul/consul-2.yaml -f consul/consul-3.yaml
+
+calicoctl get pool
+
+calicoctl delete pool default-ipv6-ippool
+
+calicoctl delete pool default-ipv4-ippool
+
+
+/usr/bin/docker run --net=host --privileged --name=calico-node -e ETCD_ENDPOINTS=${ETCD_ENDPOINTS} 
+-e NODENAME=${HOSTNAME} -e IP=172.17.8.101 -e IP6= -e AS= -e NO_DEFAULT_POOLS= -e 
+CALICO_NETWORKING_BACKEND=bird -e FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT         
+-e CALICO_IPV4POOL_CIDR=10.254.0.0/16 -v /lib/modules:/lib/modules -v 
+/run/docker/plugins:/run/docker/plugins -v /var/run/docker.sock:/var/run/docker.sock -v 
+/var/run/calico:/var/run/calico -v /var/lib/calico:/var/lib/calico -v 
+/var/log/calico:/var/log/calico quay.io/calico/node:v3.1.1
+
+
+echo FOGI4OENFdDVNQQ== | base64 -d
+
+kubectl get all -o wide
+
+kubectl get all
+
+kubectl describe pod/nginx-768979984b-ntl6m -n kube-system
+
+kubectl get all -n kube-system -o wide
+
+kubectl run nginx --image=nginx --port=80 -n kube-system
+
+kubectl delete deployment.apps/nginx -n kube-system
+
+calicoctl pool add 10.1.0.0/16
+
+calicoctl pool show --ipv4
+
+calicoctl pool remove 192.168.89.0/24
+
+calicoctl pool add 192.168.0.0/16 172.17.8.0/24 --ipip --nat-outgoing
+
+kubectl get serviceAccounts --all-namespaces | grep calico-kube-controllers
+
+kubectl delete serviceaccount/calico-kube-controllers -n kube-system
+
+kubectl get po -o wide
+
+calicoctl pool show
+
+kubectl run busy --image=busybox  -n kube-system
+
+kubectl delete ds l5d -n linkerd --force --now --cascade=false
+
+kubectl logs -f pod/calico-kube-controllers-6ddfbf7775-7p8n7 -n kube-system
+
+kubectl delete deployment.apps/nginx
+
+
+kubectl delete deployment.apps/calico-kube-controllers -n kube-system
+
+kubectl run net-test --image=jonlangemak/net_tools
+
+kubectl exec net-test-645963977-thv8m -- ip -d link
+
+
+cluster ip range : 10.254.0.0/16
+pod ip range:      192.168.0.0/16
+node ip range:     172.17.8.0/24
+
+
+kubectl get pods --show-labels -n kube-system    
+
+
+kubectl get networkpolicy --all-namespaces
+
+kubectl get pod nginx-768979984b-rsm9z -o yaml -n kube-system
+

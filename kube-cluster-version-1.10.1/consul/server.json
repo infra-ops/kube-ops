@@ -1,0 +1,18 @@
+{
+  "acl_datacenter":"us-east-1",
+  "datacenter":"us-east-1",
+  "data_dir": "/consul/data",
+  "acl_default_policy":"allow",
+  "acl_down_policy":"allow",
+  "encrypt": "N1lWcQdGHNL0LLoK6qPC+Q==",
+  "ca_file": "/etc/tls/cert-6/ca.cert",
+  "cert_file": "/etc/tls/cert-6/consul.cert",
+  "key_file": "/etc/tls/cert-6/consul.key",
+  "verify_incoming": false,
+  "verify_outgoing": false,
+  "acl_master_token": "66240016-6fb9-4462-8e8e-87f7efe2f26e",
+  "verify_server_hostname": false,
+  "ports": {
+    "https": 8443
+  }
+}

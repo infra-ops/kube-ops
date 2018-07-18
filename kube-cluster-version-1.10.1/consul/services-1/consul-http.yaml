@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-http
+  namespace: kube-system
+  labels:
+    name: consul-http
+spec:
+  ports:
+    - name: http
+      port: 8500
+      targetPort: 8500
+  selector:
+    app: consul
+ 

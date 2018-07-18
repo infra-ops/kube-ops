@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: services
+  labels:
+    k8s-app: service-endpoint
+spec:
+  selector:
+    matchExpressions:
+    - {key: k8s-app, operator: Exists}
+  namespaceSelector:
+    matchNames:
+    - k8s
+  endpoints:
+  - port: web
+    interval: 30s

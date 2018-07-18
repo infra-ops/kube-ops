@@ -1,0 +1,18 @@
+docker run -d \
+-v /var/run/docker.sock:/tmp/docker.sock \
+--name registrator -h registrator \
+gliderlabs/registrator:master consul://10.254.174.17:8500
+
+
+docker run -d -v /var/run/docker.sock:/tmp/docker.sock -h core-02  gliderlabs/registrator:master consul://10.254.174.17:8500
+
+
+docker run -d -v /var/run/docker.sock:/tmp/docker.sock -h core-02 --name=reg_node1 --privileged gliderlabs/registrator:master consul://10.254.174.17:8500
+
+
+
+docker run -d -v /var/run/docker.sock:/tmp/docker.sock -h core-02 --name=reg_node1 --privileged gliderlabs/registrator:master consul://10.254.174.17:8500
+
+
+
+

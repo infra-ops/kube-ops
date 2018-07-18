@@ -1,0 +1,1 @@
+./calicoctl node status
