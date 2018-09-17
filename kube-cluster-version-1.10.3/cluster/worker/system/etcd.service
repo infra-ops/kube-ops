@@ -1,0 +1,22 @@
+[Unit]
+Description=Kubernetes etcd Service Manager
+Documentation=http://kubernetes.io/docs/
+
+[Service]
+ExecStart=/opt/apps/etcd/etcd --name infra1 --initial-advertise-peer-urls http://172.17.9.102:2380 \
+  --listen-peer-urls http://172.17.9.102:2380 \
+  --listen-client-urls http://172.17.9.102:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls http://172.17.9.102:2379 \
+  --initial-cluster-token etcd-cluster-1 \
+  --initial-cluster infra0=http://172.17.9.101:2380,infra1=http://172.17.9.102:2380  \
+  --data-dir /opt/apps/etcd-data/infra1.etcd \
+  --initial-cluster-state  new
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+
+

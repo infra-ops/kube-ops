@@ -1,0 +1,43 @@
+version: '2'
+
+networks:
+  monitoring_bridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.22.0/24
+          gateway: 172.16.22.1
+
+services:
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: 
+      - '--path.procfs=/host/proc' 
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - 9110:9100
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.16.22.4
+    restart: always
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      #- /sys/fs/cgroup/cpu,cpuacct:/sys/fs/cgroup/cpuacct,cpu
+    ports:
+      - 8181:8080
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.16.22.5
+    restart: always
