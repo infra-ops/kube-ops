@@ -1,0 +1,58 @@
+# Calico Version v3.1.1
+# https://docs.projectcalico.org/v3.1/releases#v3.1.1
+# This manifest includes the following component versions:
+#   calico/kube-controllers:v3.1.1
+# Create this manifest using kubectl to deploy
+# the Calico Kubernetes controllers.
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calico-kube-controllers
+  namespace: kube-system
+  labels:
+    k8s-app: calico-kube-controllers
+spec:
+  # Only a single instance of the this pod should be
+  # active at a time.  Since this pod is run as a Deployment,
+  # Kubernetes will ensure the pod is recreated in case of failure,
+  # removing the need for passive backups.
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: calico-kube-controllers
+      namespace: kube-system
+      labels:
+        k8s-app: calico-kube-controllers
+    spec:
+      serviceAccount: calico-kube-controllers
+      hostNetwork: true
+      volumes:
+        - name: kubeconfig
+          hostPath: 
+            path: /opt/apps/bin
+      containers:
+        - name: calico-kube-controllers
+          # Make sure to pin this to your desired version.
+          image: quay.io/calico/kube-controllers:v3.1.1
+          env:
+            # Configure the location of your etcd cluster.
+            - name: ETCD_ENDPOINTS
+              value: "http://172.17.9.101:2379"
+            - name: KUBECONFIG
+              value: /etc/kubernetes/calico-controller-kubeconfig
+            - name: FELIX_DEFAULTENDPOINTTOHOSTACTION
+              value: RETURN
+          volumeMounts:
+            - mountPath: /etc/kubernetes
+              name: kubeconfig
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - 172.17.9.102

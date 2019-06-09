@@ -1,0 +1,20 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
+[Service]
+ExecStart=/opt/apps/bin/kube-controller-manager \
+  --allocate-node-cidrs=true \
+  --cluster-cidr=10.1.0.0/16 \
+  --leader-elect=true \
+  --master=http://172.17.8.101:8080 \
+  --service-account-private-key-file=/opt/apps/certs/controller/controller-manager.key \
+  --root-ca-file=/opt/apps/certs/controller/ca.crt \
+  --v=2
+
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

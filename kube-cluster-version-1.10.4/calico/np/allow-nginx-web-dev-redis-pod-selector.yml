@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-frontend-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: dev-redis
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: nginx-web
+      ports:
+        - protocol: TCP
+          port: 6379

@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-frontend-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: dev-redis
+  ingress:
+    - from:
+      - ipBlock:
+          cidr: 10.1.121.0/24
+
+ 

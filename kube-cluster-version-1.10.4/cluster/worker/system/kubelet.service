@@ -1,0 +1,13 @@
+[Unit]
+Description=kubelet: The Kubernetes Node Agent
+Documentation=http://kubernetes.io/docs/
+
+[Service]
+ExecStart=/opt/apps/bin/kubelet  --kubeconfig=/opt/apps/bin/kubeconfig    --address=0.0.0.0  --hostname_override=172.17.9.102  --cluster-dns=10.254.0.20,8.8.8.8  --cluster-domain=cluster.local --network-plugin=cni --cni-conf-dir=/opt/apps/cni/net.d --cni-bin-dir=/opt/apps/cni/bin  --allow-privileged  --v=5
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: egress-netpol
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx-web
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: dev-redis
+    ports:
+    - port: 6379

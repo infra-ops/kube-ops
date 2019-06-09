@@ -1,0 +1,37 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
+[Service]
+ExecStart=/opt/apps/bin/kube-apiserver \
+  --advertise-address=172.17.8.101 \
+  --allow-privileged=true \
+  --bind-address=0.0.0.0 \
+  --insecure-bind-address=0.0.0.0 \
+  --etcd-servers=http://127.0.0.1:2379 \
+  --service-cluster-ip-range=10.254.0.0/24 \
+  --service-node-port-range=30000-32767 \
+  --service-account-key-file=/opt/apps/certs/controller/controller-manager.crt \
+  --logtostderr=true \
+  --secure-port=6443 \
+  --insecure-port=8080 \
+  --proxy-client-cert-file=/opt/apps/certs/api/apiserver.crt \
+  --proxy-client-key-file=/opt/apps/certs/api/apiserver.key \
+  --requestheader-allowed-names= \
+  --requestheader-client-ca-file=/opt/apps/certs/api/ca.crt \
+  --requestheader-extra-headers-prefix=X-Remote-Extra- \
+  --requestheader-group-headers=X-Remote-Group \
+  --requestheader-username-headers=X-Remote-User \
+  --enable-aggregator-routing=true \
+  --tls-cert-file=/opt/apps/certs/api/apiserver.crt \
+  --tls-private-key-file=/opt/apps/certs/api/apiserver.key \
+  --authorization-mode=Node,RBAC \
+  --client-ca-file=/opt/apps/certs/api/ca.crt \
+  --v=2
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
