@@ -1,0 +1,91 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: consul-3
+  namespace: elb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: consul
+        member: consul-3
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: consul
+          image: "consul:0.9.1"
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: GOSSIP_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: consul
+                  key: gossip-encryption-key
+          args:
+            - "agent"
+            - "-ui"
+            - "-node=consul-3"
+            - "-data-dir=/consul/data/"
+            - "-server"
+            - "-bootstrap-expect=3"
+            - "-advertise=$(CONSUL_3_SERVICE_HOST)"
+            - "-rejoin"
+            - "-client=0.0.0.0"
+            - "-retry-join=$(CONSUL_1_SERVICE_HOST)"
+            - "-encrypt=$(GOSSIP_ENCRYPTION_KEY)"
+            - "-config-file=/etc/consul/server.json"
+
+        
+          
+          volumeMounts:
+            - name: config
+              mountPath: /etc/consul
+            - name: tls
+              mountPath: /etc/tls/cert-6
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - consul leave
+
+          ports:
+            - containerPort: 8300
+              name: server
+            - containerPort: 8301
+              name: serflan-tcp
+              protocol: "TCP"
+            - containerPort: 8301
+              name: serflan-udp
+              protocol: "UDP"
+            - containerPort: 8302
+              name: serfwan-tcp
+              protocol: "TCP"
+            - containerPort: 8302
+              name: serfwan-udp
+              protocol: "UDP"
+            - containerPort: 8400
+              name: rpc-port
+            - containerPort: 8500
+              name: api-port
+            - containerPort: 8600
+              name: consuldns-tcp
+              protocol: "TCP"
+            - containerPort: 8600
+              name: consuldns-udp
+              protocol: "UDP"
+      volumes:
+         - name: config
+           configMap:
+             name: consul
+         - name: tls
+           secret:
+             secretName: consul
+
+

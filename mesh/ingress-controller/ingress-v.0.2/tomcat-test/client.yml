@@ -1,0 +1,10 @@
+kubectl run -i --tty --rm debug --image=amouat/network-utils --restart=Never -- curl -I http://172.17.8.102:32301
+kubectl run -i --tty --rm debug --image=amouat/network-utils --restart=Never -- curl -I http://10.1.121.26:8080
+
+
+kubectl get pods -n nginx-ingress  -o wide
+kubectl get svc -n nginx-ingress  -o wide
+kubectl get deployments -n nginx-ingress
+
+kubectl delete deployments echoserver-deploy -n nginx-ingress
+

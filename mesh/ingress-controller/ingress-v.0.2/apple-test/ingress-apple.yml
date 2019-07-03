@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: apple-ingress
+  namespace: nginx-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  - hosts:
+      - 172.17.8.102
+      
+  rules:
+  - host: 172.17.8.102
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: apple-service
+          servicePort: 5678
